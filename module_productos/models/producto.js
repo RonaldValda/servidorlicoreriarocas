@@ -1,0 +1,48 @@
+const mongoose = require('mongoose');
+const ProductoSchema = mongoose.Schema({
+    codigo:{
+        type:String
+    },
+    unidad:{
+        type:String
+    },
+    contenido:{
+        type:String
+    },
+    precio:{
+        type:Number
+    },
+    stock_minimo:{
+        type:Number
+    },
+    utilidad:{
+        type:Number
+    },
+    vencimiento_maximo:{
+        type:Number
+    },
+    grado_alcoholico:{
+        type:Number
+    },
+    imagenes_producto:[{
+        type:String
+    }],
+    cantidad_favoritos:{
+        type:Number,
+        default:0
+    },
+    fecha_registro:{
+        type:Date,
+        default:Date.now()
+    },
+    clientes_favorito:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'ClienteFavorito',
+        default:{}
+    }],
+    etiqueta:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Etiqueta'
+    },
+});
+module.exports = mongoose.model('Producto',ProductoSchema);

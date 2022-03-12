@@ -1,0 +1,46 @@
+var mongoose = require('mongoose');
+const ClienteSchema = mongoose.Schema({
+    ci_nit:{
+        type:String,
+    },
+    link_foto:{
+        type:String
+    },
+    nombres:{
+        type:String
+    },
+    apellidos:{
+        type:String
+    },
+    fecha_nacimiento:{
+        type:String
+    },
+    imei_telefono:{
+        type:String
+    },
+    email:{
+        type:String
+    },
+    password:{
+        type:String
+    },
+    medio_registro:{
+        type:String
+    },
+    fecha_registro:{
+        type:Date
+    },
+    fecha_ultimo_ingreso:{
+        type:Date
+    },
+    fecha_penultimo_ingreso:{
+        type:Date
+    },
+    telefono:{
+        type:String
+    },
+    estado_cuenta:{
+        type:Boolean
+    }
+});
+module.exports = mongoose.model('Cliente',ClienteSchema);

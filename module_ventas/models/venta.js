@@ -1,0 +1,41 @@
+const mongoose = require('mongoose');
+const VentaSchema = mongoose.Schema({
+    cliente:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Cliente"
+    },
+    sucursal:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Sucursal"
+    },
+    vendedor:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Usuario"
+    },
+    nro_comprobante:{
+        type:String
+    },
+    fecha_venta_movimiento:{
+        type:Date
+    },
+    fecha_venta_sistema:{
+        type:Date
+    },
+    costo_total:{
+        type:Number,
+        default:0.0
+    },
+    precio_total:{
+        type:Number,
+        default:0.0
+    },
+    descuento_total:{
+        type:Number,
+        default:0.0
+    },
+    venta_productos:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"VentaProducto"
+    }]
+});
+module.exports = mongoose.model('Venta',VentaSchema);

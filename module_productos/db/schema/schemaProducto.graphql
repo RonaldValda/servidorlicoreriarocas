@@ -1,0 +1,140 @@
+scalar Double
+
+type Categoria{
+    id:ID
+    nombre_categoria:String
+    subcategorias:[Subcategoria]
+}
+input CategoriaInput{
+    nombre_categoria:String
+}
+type Subcategoria{
+    id:ID
+    nombre_subcategoria:String
+    categoria:Categoria
+    etiquetas:[Etiqueta]
+}
+type Etiqueta{
+    id:ID
+    nombre_etiqueta:String
+    subcategoria:Subcategoria
+    productos:[Producto]
+}
+type Producto{
+    id:ID
+    codigo:String
+    unidad:String,
+    contenido:String
+    precio:Double
+    grado_alcoholico:Double
+    vencimiento_maximo:Int
+    stock_minimo:Int
+    utilidad:Double
+    imagenes_producto:[String]
+    fecha_registro:Date
+    cantidad_favoritos:Int
+    clientes_favorito:[ClienteFavorito]
+    etiqueta:Etiqueta
+    producto_lote_sucursal:[ProductoLoteSucursal]
+}
+input ProductoInput{
+    codigo:String
+    unidad:String,
+    contenido:String
+    precio:Double
+    grado_alcoholico:Double
+    vencimiento_maximo:Int
+    stock_minimo:Int
+    utilidad:Double
+    imagenes_producto:[String]
+    etiqueta:ID
+}
+type ProductoKardexSucursal{
+    id:ID
+    usuario:Usuario
+    sucursal:Sucursal
+    producto:Producto
+    fecha:Date
+    detalle:String
+    tipo:String
+    nro_comprobante:String
+    valor_unitario:Double
+    cantidad:Int
+    valor:Double
+    cantidad_saldo:Int
+    valor_saldo:Double
+}
+input ProductoKardexSucursalInput{
+    usuario:ID
+    sucursal:ID
+    producto:ID
+    detalle:String
+    tipo:String
+    nro_comprobante:String
+    valor_unitario:Double
+    cantidad:Int
+}
+type ProductoLoteSucursal{
+    id:ID
+    sucursal:Sucursal
+    producto:Producto
+    lote:String
+    fecha_vencimiento:String
+    cantidad_inicial:Int
+    cantidad_saldo:Int
+    producto_lote_sucursal_almacenes:[ProductoLoteSucursalAlmacen]
+}
+input ProductoLoteSucursalInput{
+    sucursal:ID
+    producto:ID
+    lote:String
+    fecha_vencimiento:String
+    cantidad_inicial:Int
+    cantidad_saldo:Int
+}
+type ProductoLoteSucursalAlmacen{
+    id:ID
+    producto_lote_sucursal:ProductoLoteSucursal
+    cantidad_inicial:Int
+    cantidad_saldo:Int
+}
+input ProductoLoteSucursalAlmacenInput{
+    producto_lote_sucursal:ID
+    cantidad_inicial:Int
+    cantidad_saldo:Int
+}
+extend type Mutation{
+    registrarCategoria(nombre_categoria:String):Categoria
+    modificarCategoria(id:ID,nombre_categoria:String):String
+    eliminarCategoria(id:ID):String
+    registrarSubcategoria(id_categoria:ID,nombre_subcategoria:String):Subcategoria
+    modificarSubcategoria(id:ID,nombre_subcategoria:String):String
+    eliminarSubcategoria(id:ID):String
+    registrarEtiqueta(id_subcategoria:ID,nombre_etiqueta:String):Etiqueta
+    modificarEtiqueta(id:ID,nombre_etiqueta:String):String
+    eliminarEtiqueta(id:ID):String
+    registrarProducto(input:ProductoInput):Producto
+    modificarProducto(id:ID,input:ProductoInput):String
+    eliminarProducto(id:ID):String
+    registrarProductoLoteSucursal(input:ProductoLoteSucursalInput):ProductoLoteSucursal
+    modificarProductoLoteSucursal(input:ProductoLoteSucursalInput):ProductoLoteSucursal
+    eliminarProductoLoteSucursal(id:ID):String
+    registrarProductoLoteSucursalAlmacen(input:ProductoLoteSucursalAlmacenInput):ProductoLoteSucursalAlmacen
+    modificarProductoLoteSucursalAlmacen(input:ProductoLoteSucursalAlmacenInput):ProductoLoteSucursalAlmacen
+    eliminarProductoLoteSucursalAlmacen(id:ID):String
+    registrarProductoKardexSucursal(input:ProductoKardexSucursalInput):ProductoKardexSucursal
+    modificarProductoKardexSucursal(input:ProductoKardexSucursalInput):ProductoKardexSucursal
+    eliminarProductoKardexSucursal(id:ID):String,
+    registrarMuchasCategorias(input:[CategoriaInput!]!):String
+    registrarMasivoProductos(id_etiqueta:ID,grado_alcoholico_min:Int,grado_alcoholico_max:Int):String
+}
+extend type Query{
+    obtenerCategorias:[Categoria]
+    obtenerSubcategorias:[Subcategoria]
+    obtenerProductos(id_etiqueta:ID):[Producto]
+    obtenerProductosGeneral:[Producto]
+    obtenerProductoLotesSucursal(id_sucursal:ID,id_producto:ID):[ProductoLoteSucursal]
+    buscarProductoContenido(contenido:String):[Producto]
+    obtenerProductoKardexs(id_sucursal:ID,id_producto:ID,fecha_inicial:Date,fecha_final:Date):[ProductoKardexSucursal]
+    obtenerProductos1:[Producto]
+}

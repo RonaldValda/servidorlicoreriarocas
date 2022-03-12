@@ -1,0 +1,73 @@
+type Proveedor{
+    id:ID
+    ci_nit:String
+    nombres:String
+    fecha_registro:Date
+    estado:Boolean
+}
+type Compra{
+    id:ID
+    proveedor:Proveedor
+    usuario_pre_compra:Usuario
+    usuario_confirmacion:Usuario
+    nro_comprobante:String
+    fecha_pre_compra_movimiento:Date
+    fecha_pre_compra_sistema:Date
+    fecha_confirmacion_movimiento:Date
+    fecha_confirmacion_sistema:Date
+    costo_total:Double
+    pre_compra_terminada:Boolean
+    confirmado:Boolean
+    observaciones_pre_compra:String
+    observaciones_confirmacion:String
+    compra_productos:[CompraProducto]
+}
+input CompraInput{
+    nro_comprobante:String
+    costo_total:Double
+    confirmado:Boolean
+    fecha_pre_compra_movimiento:String
+    fecha_confirmacion_movimiento:String
+    observaciones_pre_compra:String
+    observaciones_confirmacion:String
+}
+type CompraProducto{
+    id:ID
+    producto:Producto
+    lote:String
+    fecha_vencimiento:String
+    cantidad:Int
+    precio_unitario:Double
+    compra:Compra
+}
+input CompraProductoInput{
+    id:String
+    producto:ID
+    lote:String
+    fecha_vencimiento:String
+    cantidad:Int
+    precio_unitario:Double
+}
+input ProveedorInput{
+    ci_nit:String
+    nombres:String
+    estado:Boolean
+}
+
+extend type Mutation{
+    registrarProveedor(input:ProveedorInput):Proveedor
+    modificarProveedor(id:ID,input:ProveedorInput):String
+    eliminarProveedor(id:ID):String
+    registrarPreCompra(id_sucursal:ID,id_proveedor:ID,id_usuario_pre_compra:ID,tipo_usuario_confirmacion:String,input:CompraInput,input_compra_productos:[CompraProductoInput!]!):Compra
+    modificarPreCompra(id:ID,id_proveedor:ID,input:CompraInput):[CompraProducto]
+    responderConfirmacionPreCompra(id_usuario_confirmacion:ID,id_compra:ID,input:CompraInput,input_compra_productos:[CompraProductoInput!]!):Compra
+    registrarCompraProducto(id_compra:ID,costo_total:Double,input:CompraProductoInput):CompraProducto
+    modificarCompraProducto(id:ID,input:CompraProductoInput):String
+    eliminarCompraProducto(id:ID):String
+    terminarPreCompra(id:ID,observaciones_pre_compra:String):String
+}
+extend type Query{
+    obtenerProveedores:[Proveedor]
+    buscarProveedor(ci_nit:String,nombres:String):[Proveedor]
+    obtenerPreComprasPendientes(id_sucursal:String,tipo_usuario_confirmacion:String):[Compra]
+}

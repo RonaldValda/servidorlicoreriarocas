@@ -1,0 +1,52 @@
+const mongoose = require('mongoose');
+const ConfiguracionEmpresaSchema = mongoose.Schema({
+    moneda_principal:{
+        type:String,
+        default:""
+    },
+    moneda_secundaria:{
+        type:String,
+        default:""
+    },
+    cambio_moneda_secundaria_principal:{
+        type:Number,
+        default:0.0
+    },
+    utilidad_minima_general:{
+        type:Number,
+        default:0.0
+    },
+    taza_adicional_general:{
+        type:Number,
+        default:0.0
+    },
+    ordenar_categorias_alfabeticamente:{
+        type:Boolean,
+        default:false
+    },
+    ordenar_subcategorias_alfabeticamente:{
+        type:Boolean,
+        default:false
+    },
+    ordenar_etiquetas_alfabeticament:{
+        type:Boolean,
+        default:false
+    },
+    monto_maximo_variacion_caja:{
+        type:Number,
+        default:0.0
+    },
+    fecha_inicio:{
+        type:Date,
+        default:Date.now()
+    },
+    fecha_final:{
+        type:Date,
+        default:Date.now()
+    },
+    estado:{
+        type:Boolean,
+        default:false
+    }
+});
+module.exports = mongoose.model('ConfiguracionEmpresa',ConfiguracionEmpresaSchema);

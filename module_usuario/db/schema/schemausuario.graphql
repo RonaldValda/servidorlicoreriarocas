@@ -1,0 +1,45 @@
+    
+  type Query {
+    obtenerUsuarios:[Usuario]
+  }
+  scalar Date
+    type Usuario {
+        id: ID
+        link_foto: String
+        nombres: String
+        apellidos: String
+        imei_telefono: String
+        email: String
+        medio_registro: String
+        fecha_registro:Date
+        fecha_ultimo_ingreso: Date
+        fecha_penultimo_ingreso:Date
+        tipo_usuario: String
+        telefono: String
+        estado_cuenta: Boolean
+    }
+    
+
+    type Token {
+        token: String
+    }
+
+    input UsuarioInput {
+        link_foto: String
+        nombres: String
+        apellidos: String
+        imei_telefono: String
+        email: String
+        password: String
+        medio_registro: String
+        tipo_usuario: String
+        telefono: String
+        estado_cuenta: Boolean
+    }
+    type Mutation {
+        registrarUsuario(input:UsuarioInput):Usuario
+        modificarUsuario(id:ID,input:UsuarioInput):String
+        eliminarUsuario(id:ID):String
+        autenticarUsuario(email:String,password:String,medio_registro:String):Usuario
+    }
+   

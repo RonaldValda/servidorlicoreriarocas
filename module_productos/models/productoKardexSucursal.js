@@ -1,0 +1,44 @@
+const mongoose = require('mongoose');
+const ProductoKardexSucursalSchema = mongoose.Schema({
+    usuario:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Usuario'
+    },
+    sucursal:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Sucursal'
+    },
+    producto:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Producto'
+    },
+    fecha:{
+        type:Date,
+        default:Date.now()
+    },
+    detalle:{
+        type:String
+    },
+    tipo:{
+        type:String
+    },
+    nro_comprobante:{
+        type:String
+    },
+    valor_unitario:{
+        type:Number
+    },
+    cantidad:{
+        type:Number
+    },
+    valor:{
+        type:Number
+    },
+    cantidad_saldo:{
+        type:Number
+    },
+    valor_saldo:{
+        type:Number
+    }
+});
+module.exports = mongoose.model('ProductoKardexSucursal',ProductoKardexSucursalSchema);

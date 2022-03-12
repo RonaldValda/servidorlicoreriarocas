@@ -1,0 +1,73 @@
+
+type Venta{
+    id:ID
+    cliente:Cliente
+    sucursal:Sucursal
+    vendedor:Usuario
+    nro_comprobante:String
+    fecha_venta_movimiento:String
+    fecha_venta_sistema:String
+    costo_total:Double
+    precio_total:Double
+    descuento_total:Double
+    venta_productos:[VentaProducto]
+}
+input VentaInput{
+    cliente:String
+    sucursal:ID
+    vendedor:ID
+    nro_comprobante:String
+    fecha_venta_movimiento:String
+    costo_total:Double
+    precio_total:Double
+    descuento_total:Double
+}
+type VentaProducto{
+    id:ID
+    cantidad:Int
+    costo_unitario:Double
+    precio_unitario:Double
+    venta:[Venta]
+}
+input VentaProductoInput{
+    id:ID
+    cantidad:Int
+    costo_unitario:Double
+    precio_unitario:Double
+}
+input ProductoOfertaDiaInput{
+    producto:ID
+    fecha:Date
+    activo:Boolean
+    solo_tienda:Boolean
+    solo_app:Boolean
+    tienda_app:Boolean
+    precio_unitario:Double
+}
+type ProductoOfertaDia{
+    id:ID
+    producto:Producto
+    fecha:Date
+    activo:Boolean
+    solo_tienda:Boolean
+    solo_app:Boolean
+    tienda_app:Boolean
+    precio_unitario:Double
+}
+type ProductosVentaCliente{
+    productos_oferta_dia:[ProductoOfertaDia]
+    productos:[Producto]
+    categorias:[Categoria]
+}
+extend type Mutation{
+    registrarProductoOfertaDia(input:ProductoOfertaDiaInput):ProductoOfertaDia
+    modificarProductoOfertaDia(id:ID,input:ProductoOfertaDiaInput):String
+    eliminarProductoOfertaDia(id:ID):String
+    registrarVenta(input_venta:VentaInput,input_venta_productos:[VentaProductoInput!]!):Venta
+}
+extend type Query{
+    obtenerProductosOfertadosHoy:[ProductoOfertaDia]
+    obtenerProductosOfertadosDia(fecha:Date):[ProductoOfertaDia]
+    obtenerProductoOfertaDia(producto:ID,fecha:Date):ProductoOfertaDia
+    obtenerProductosVentaCliente(id_cliente:String):ProductosVentaCliente
+}

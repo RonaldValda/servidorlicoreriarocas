@@ -1,0 +1,52 @@
+type Cliente{
+    id:ID
+    ci_nit:String
+    link_foto:String
+    nombres:String
+    fecha_nacimiento:String
+    imei_telefono:String
+    email:String
+    password:String
+    medio_registro:String
+    fecha_registro:Date
+    fecha_ultimo_ingreso:Date
+    fecha_penultimo_ingreso:Date
+    telefono:String
+    estado_cuenta:Boolean
+}
+input ClienteInput{
+    ci_nit:String
+    link_foto:String
+    nombres:String
+    fecha_nacimiento:String
+    imei_telefono:String
+    email:String
+    password:String
+    medio_registro:String
+    telefono:String
+    estado_cuenta:Boolean
+}
+type ClienteFavorito{
+    id:ID
+    producto:Producto
+    cliente:Cliente
+    favorito:Boolean
+}
+input ClienteFavoritoInput{
+    producto:ID
+    cliente:ID
+    favorito:Boolean
+}
+extend type Mutation{
+    registrarCliente(input:ClienteInput):Cliente
+    registrarFechaNacimientoCliente(id:ID,fecha_nacimiento:String):String
+    modificarCliente(id:ID,input:ClienteInput):String
+    eliminarCliente(id:ID):String
+    autenticarCliente(input:ClienteInput):Cliente
+    registrarClienteFavorito(input:ClienteFavoritoInput):ClienteFavorito
+}
+extend type Query{
+    obtenerClientes:[Cliente]
+    buscarCliente(ci_nit:String,nombres:String):[Cliente]
+    obtenerClienteFavorito:[ClienteFavorito]
+}

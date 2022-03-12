@@ -1,0 +1,66 @@
+type ConfiguracionEmpresa{
+    id:ID
+    moneda_principal:String
+    moneda_secundaria:String
+    cambio_moneda_secundaria_principal:Double
+    utilidad_minima_general:Double
+    taza_adicional_general:Double
+    ordenar_categorias_alfabeticamente:Boolean
+    ordenar_subcategorias_alfabeticamente:Boolean
+    ordenar_etiquetas_alfabeticamente:Boolean
+    monto_maximo_variacion_caja:Double
+    fecha_inicio:Date
+    fecha_final:Date
+    estado:Boolean
+}
+input ConfiguracionEmpresaInput{
+    moneda_principal:String
+    moneda_secundaria:String
+    cambio_moneda_secundaria_principal:Double
+    utilidad_minima_general:Double
+    taza_adicional_general:Double
+    ordenar_categorias_alfabeticamente:Boolean
+    ordenar_subcategorias_alfabeticamente:Boolean
+    ordenar_etiquetas_alfabeticamente:Boolean
+    monto_maximo_variacion_caja:Double
+    fecha_inicio:Date
+    fecha_final:Date
+    estado:Boolean
+}
+type Sucursal{
+    id:ID
+    descripcion:String
+    direccion:String
+    telefonos:[String]
+    fecha_registro:Date
+    estado:Boolean
+    coordenadas:[Double]
+}
+input SucursalInput{
+    descripcion:String
+    direccion:String
+    telefonos:[String]
+    estado:Boolean
+    coordenadas:[Double]
+}
+type SucursalAlmacen{
+    id:ID
+    localizacion:String
+    sucursal:Sucursal
+}
+extend type Mutation{
+    registrarConfiguracionEmpresa(input:ConfiguracionEmpresaInput):ConfiguracionEmpresa
+    modificarConfiguracionEmpresa(id:ID,input:ConfiguracionEmpresaInput):String
+    eliminarConfiguracionEmpresa(id:ID):String
+    registrarSucursal(input:SucursalInput):Sucursal
+    modificarSucursal(id:ID,input:SucursalInput):String
+    eliminarSucursal(id:ID):String
+    registrarSucursalAlmacen(id_sucursal:ID,localizacion:String):SucursalAlmacen
+    modificarSucursalAlmacen(id:ID,localizacion:String):String
+    eliminarSucursalAlmacen(id:ID):String
+}
+extend type Query{
+    obtenerConfiguracionesEmpresa:[ConfiguracionEmpresa]
+    obtenerSucursales:[Sucursal]
+    obtenerSucursalAlmacenes(id_sucursal:ID):[SucursalAlmacen]
+}
